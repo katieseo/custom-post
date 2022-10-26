@@ -28,7 +28,9 @@ const Post = () => {
     pageTitleTag: "",
   };
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string | ArrayBuffer | null | undefined>(
+    null
+  );
   const [body, setBody] = useState("");
   const {
     register,
@@ -53,7 +55,7 @@ const Post = () => {
     let reader = new FileReader();
 
     reader.onload = function (event) {
-      setImage(event.target.result);
+      setImage(event.target?.result);
     };
 
     if (!e.target.files) return;
@@ -96,7 +98,7 @@ const Post = () => {
 
             <section className="upload-image">
               <div className="file-group">
-                {image && <img src={image} />}
+                {typeof image === "string" && <img src={image} />}
                 <input
                   type="file"
                   {...register("image")}

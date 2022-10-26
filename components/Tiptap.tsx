@@ -12,7 +12,7 @@ type Props = {
   setBody: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const MenuBar = ({ editor }) => {
+const MenuBar = ({ editor }: any) => {
   if (!editor) {
     return null;
   }
