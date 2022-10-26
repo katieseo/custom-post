@@ -1,0 +1,84 @@
+@import "./base/fonts";
+@import "./base/mixin";
+@import "./base/variables";
+@import "./base/reset";
+
+@import "./Layout";
+@import "./Nav";
+@import "./Post";
+@import "./Tiptap";
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "SupremeLLWeb-Medium", sans-serif;
+  font-size: 16px;
+}
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-text-hover);
+
+    svg {
+      fill: var(--color-text-hover);
+    }
+  }
+}
+
+svg {
+  fill: var(--color-text);
+}
+
+button {
+  &.button-primary {
+    border: 0;
+    font-size: 18px;
+    background: var(--color-btn-bg);
+    border-radius: 12px;
+    cursor: pointer;
+    padding: 13px 27px;
+    text-align: center;
+  }
+
+  &.button-secondary {
+    @extend .button-primary;
+    background: none;
+    color: var(--color-text);
+    padding: 13px 10px;
+  }
+}
+
+label {
+  color: var(--color-text-label);
+  font-size: 18px;
+}
+
+textarea,
+input {
+  background: var(--color-form-bg);
+  border: 0;
+  border-radius: 15px;
+  color: var(--color-text);
+  max-width: 100%;
+}
+
+textarea {
+  padding: 28px;
+  resize: none;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--color-text-placeholder);
+  font-family: "SupremeLLWeb-Light", sans-serif;
+  opacity: 1; /* Firefox */
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: var(--color-text-placeholder);
+  font-family: "SupremeLLWeb-Light", sans-serif;
+}
