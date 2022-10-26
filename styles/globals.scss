@@ -1,5 +1,4 @@
 @import "./base/fonts";
-@import "./base/mixin";
 @import "./base/variables";
 @import "./base/reset";
 
@@ -8,12 +7,16 @@
 @import "./Post";
 @import "./Tiptap";
 
+/* body ----------*/
+
 body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: "SupremeLLWeb-Medium", sans-serif;
   font-size: 16px;
 }
+
+/* a & svg link style ----------*/
 
 a {
   color: var(--color-text);
@@ -32,10 +35,12 @@ svg {
   fill: var(--color-text);
 }
 
+/* Button ----------*/
+
 button {
   &.button-primary {
     border: 0;
-    font-size: 18px;
+    font-size: 1.125rem;
     background: var(--color-btn-bg);
     border-radius: 12px;
     cursor: pointer;
@@ -51,9 +56,11 @@ button {
   }
 }
 
+/* Forms ----------*/
+
 label {
   color: var(--color-text-label);
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 textarea,

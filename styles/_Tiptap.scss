@@ -1,3 +1,5 @@
+/* Editor buttons styles ----------*/
+
 .editor-buttons {
   display: inline;
 
@@ -6,7 +8,7 @@
     border: 0;
     border-radius: 9px;
     color: var(--color-text);
-    font-size: 14px;
+    font-size: 0.875rem;
     height: 24px;
     line-height: 1;
     margin: 6px;
@@ -17,10 +19,12 @@
   }
 }
 
-/* Basic editor styles */
+/* Basic editor styles ----------*/
+
 .ProseMirror {
   background: var(--color-form-bg);
   border-radius: 15px;
+  font-family: "SupremeLLWeb-Light", sans-serif;
   height: 420px;
   min-height: 420px;
   overflow: auto;

@@ -58,7 +58,7 @@ const Nav = () => {
       <div className="nav-footer">
         <IconHoomanStudio />
         <Link href="/">
-          <a>
+          <a className="nav-footer-logout">
             <IconLogout />
           </a>
         </Link>
