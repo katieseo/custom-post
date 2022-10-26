@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { IconHide } from "./Icons";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Tiptap } from "./Tiptap";
+import { getCurrentDate } from "../utils/getCurrentDate";
 
 type FormValues = {
   title: string;
@@ -21,7 +22,7 @@ const Post = () => {
     image: null,
     imageDescription: "",
     readingTime: 0,
-    date: "03.25.20",
+    date: getCurrentDate(),
     category: "",
     body: "",
     metaDescription: "",
@@ -31,11 +32,12 @@ const Post = () => {
   const [image, setImage] = useState<string | ArrayBuffer | null | undefined>(
     null
   );
-  const [body, setBody] = useState("");
+
   const {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<FormValues>();
 
@@ -49,7 +51,9 @@ const Post = () => {
     { label: "Commentary" },
   ];
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let reader = new FileReader();
@@ -63,6 +67,7 @@ const Post = () => {
   };
 
   const handleReset = () => {
+    setImage(null);
     reset(initialValues);
   };
 
@@ -90,15 +95,19 @@ const Post = () => {
         {/* Title, image upload ============================== */}
 
         <div className="post-header">
-          <label>Title</label>
+          <label htmlFor="title">Title</label>
           <div className="post-header-grid">
             <section className="title-textarea">
-              <textarea {...register("title")}></textarea>
+              <textarea {...register("title")} required id="title"></textarea>
             </section>
 
             <section className="upload-image">
               <div className="file-group">
-                {typeof image === "string" && <img src={image} />}
+                {typeof image === "string" && (
+                  <>
+                    <img src={image} />
+                  </>
+                )}
                 <input
                   type="file"
                   {...register("image")}
@@ -115,24 +124,31 @@ const Post = () => {
           </div>
         </div>
 
-        {/* Body, min, date, category ============================== */}
+        {/* min, date, category, Body ============================== */}
 
         <div className="post-body">
           <div className="min-date-category">
-            <input
-              type="text"
-              placeholder="min"
-              {...register("readingTime")}
-              className="redingTime"
-            />
+            <div className="form-readingTime">
+              <input
+                type="text"
+                placeholder="min"
+                {...register("readingTime")}
+                defaultValue={0}
+              />
+              <span className="readingTime-min">min</span>
+            </div>
 
-            <label htmlFor="">Date</label>
-            <input
-              type="text"
-              defaultValue="03.25.20"
-              {...register("date")}
-              className="date"
-            />
+            <div className="form-date">
+              <label htmlFor="date" className="date-label">
+                Date
+              </label>
+              <input
+                type="text"
+                defaultValue={getCurrentDate()}
+                {...register("date")}
+                id="date"
+              />
+            </div>
 
             <select {...register("category")}>
               <option value="">All</option>
@@ -144,8 +160,15 @@ const Post = () => {
             </select>
           </div>
 
+          {/* Body  ============================== */}
+
           <label>Body</label>
-          <Tiptap setBody={setBody} />
+          <Controller
+            render={({ field }) => <Tiptap onChange={field.onChange} />}
+            control={control}
+            name="body"
+            defaultValue=""
+          />
         </div>
 
         {/* Meta description, page title tag  ============================== */}

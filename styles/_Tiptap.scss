@@ -1,7 +1,10 @@
 /* Editor buttons styles ----------*/
 
 .editor-buttons {
-  display: inline;
+  display: inline-block;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
 
   button {
     background: var(--color-form-bg);
@@ -16,6 +19,12 @@
     text-align: center;
     vertical-align: middle;
     width: 34px;
+
+    &.is-active {
+      svg {
+        fill: var(--color-text-hover);
+      }
+    }
   }
 }
 
@@ -83,5 +92,9 @@
     border: none;
     border-top: 2px solid rgba(#0d0d0d, 0.1);
     margin: 2rem 0;
+  }
+
+  a {
+    text-decoration: underline;
   }
 }
