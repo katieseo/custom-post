@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { IconHide } from "./Icons";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, FormProvider } from "react-hook-form";
 import { Tiptap } from "./Tiptap";
 import { getCurrentDate } from "../utils/getCurrentDate";
 import { getReadingTime } from "../utils/getReadingTime";
+import Category from "./Post/Category";
 
 type FormValues = {
   title: string;
@@ -30,21 +31,11 @@ const Post = () => {
     imageDescription: "",
     readingTime: "",
     date: getCurrentDate(),
-    category: "",
+    category: "All",
     body: "",
     metaDescription: "",
     pageTitleTag: "",
   };
-
-  const category = [
-    { label: "Fundamentals" },
-    { label: "Processing Times" },
-    { label: "Politics & Policy" },
-    { label: "Legal Drama" },
-    { label: "Fraud" },
-    { label: "Global Market" },
-    { label: "Commentary" },
-  ];
 
   // Render uploaded image ==========
 
@@ -60,6 +51,7 @@ const Post = () => {
   };
 
   // React Hook Form ==========
+  const methods = useForm<FormValues>();
 
   const {
     register,
@@ -68,7 +60,7 @@ const Post = () => {
     control,
     setValue,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = methods;
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
@@ -83,118 +75,113 @@ const Post = () => {
 
   return (
     <div className="post">
-      <form onSubmit={onSubmit}>
-        {/* Discard, Save buttons ============================== */}
+      <FormProvider {...methods}>
+        <form onSubmit={onSubmit}>
+          {/* Discard, Save buttons ============================== */}
 
-        <div className="post-actions">
-          <IconHide />
-          <button
-            onClick={handleReset}
-            className="button-secondary"
-            type="button"
-          >
-            Discard
-          </button>
-          <button type="submit" className="button-primary">
-            Save
-          </button>
-        </div>
+          <div className="post-actions">
+            <IconHide />
+            <button
+              onClick={handleReset}
+              className="button-secondary"
+              type="button"
+            >
+              Discard
+            </button>
+            <button type="submit" className="button-primary">
+              Save
+            </button>
+          </div>
 
-        {/* Title, image upload ============================== */}
+          {/* Title, image upload ============================== */}
 
-        <div className="post-header">
-          <label htmlFor="title">Title</label>
-          <div className="post-header-grid">
-            <section className="title-textarea">
-              <textarea {...register("title")} required id="title"></textarea>
-            </section>
+          <div className="post-header">
+            <label htmlFor="title">Title</label>
+            <div className="post-header-grid">
+              <section className="title-textarea">
+                <textarea {...register("title")} required id="title"></textarea>
+              </section>
 
-            <section className="upload-image">
-              <div className="file-group">
-                {typeof image === "string" && (
-                  <>
-                    <img src={image} />
-                  </>
-                )}
+              <section className="upload-image">
+                <div className="file-group">
+                  {typeof image === "string" && (
+                    <>
+                      <img src={image} />
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    {...register("image")}
+                    onChange={handleFileChange}
+                  />
+                </div>
+
                 <input
-                  type="file"
-                  {...register("image")}
-                  onChange={handleFileChange}
+                  type="text"
+                  placeholder="Image description"
+                  className="image-description"
+                />
+              </section>
+            </div>
+          </div>
+
+          {/* min, date, category, Body ============================== */}
+
+          <div className="post-body">
+            <div className="min-date-category">
+              <div className="form-readingTime">
+                <input type="text" {...register("readingTime")} readOnly />
+                <span className="readingTime-min">min</span>
+              </div>
+
+              <div className="form-date">
+                <label htmlFor="date" className="date-label">
+                  Date
+                </label>
+                <input
+                  type="text"
+                  defaultValue={getCurrentDate()}
+                  {...register("date")}
+                  id="date"
                 />
               </div>
 
-              <input
-                type="text"
-                placeholder="Image description"
-                className="image-description"
-              />
-            </section>
-          </div>
-        </div>
-
-        {/* min, date, category, Body ============================== */}
-
-        <div className="post-body">
-          <div className="min-date-category">
-            <div className="form-readingTime">
-              <input type="text" {...register("readingTime")} readOnly />
-              <span className="readingTime-min">min</span>
+              <Category />
             </div>
 
-            <div className="form-date">
-              <label htmlFor="date" className="date-label">
-                Date
-              </label>
-              <input
-                type="text"
-                defaultValue={getCurrentDate()}
-                {...register("date")}
-                id="date"
-              />
-            </div>
+            {/* Body (Tiptap) ============================== */}
 
-            <select {...register("category")}>
-              <option value="">All</option>
-              {category.map((cat) => (
-                <option value={cat.label} key={cat.label}>
-                  {cat.label}
-                </option>
-              ))}
-            </select>
+            <label>Body</label>
+            <Controller
+              render={({ field }) => (
+                <Tiptap
+                  onChange={field.onChange}
+                  body={field.value}
+                  setValue={setValue}
+                />
+              )}
+              control={control}
+              name="body"
+              defaultValue=""
+            />
           </div>
 
-          {/* Body (Tiptap) ============================== */}
+          {/* Meta description, page title tag  ============================== */}
 
-          <label>Body</label>
-          <Controller
-            render={({ field }) => (
-              <Tiptap
-                onChange={field.onChange}
-                body={field.value}
-                setValue={setValue}
-              />
-            )}
-            control={control}
-            name="body"
-            defaultValue=""
-          />
-        </div>
-
-        {/* Meta description, page title tag  ============================== */}
-
-        <div className="post-footer">
-          <textarea
-            {...register("metaDescription")}
-            placeholder="Enter meta description"
-            className="post-meta-description"
-          ></textarea>
-          <textarea
-            {...register("pageTitleTag")}
-            placeholder="Enter page title tag"
-            className="post-page-title"
-          ></textarea>
-        </div>
-      </form>
+          <div className="post-footer">
+            <textarea
+              {...register("metaDescription")}
+              placeholder="Enter meta description"
+              className="post-meta-description"
+            ></textarea>
+            <textarea
+              {...register("pageTitleTag")}
+              placeholder="Enter page title tag"
+              className="post-page-title"
+            ></textarea>
+          </div>
+        </form>
+      </FormProvider>
     </div>
   );
 };

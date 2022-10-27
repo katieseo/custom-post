@@ -10,7 +10,7 @@
 }
 
 /* Discard, Save
-----------------------------------------*/
+==================================================*/
 
 .post-actions {
   align-items: center;
@@ -21,7 +21,7 @@
 }
 
 /* Title, Image Upload
-----------------------------------------*/
+==================================================*/
 
 .post-header {
   label {
@@ -84,7 +84,7 @@
 
 /* readingTime, Date, Category
     & Body
-----------------------------------------*/
+==================================================*/
 
 .post-body {
   margin-bottom: 16px;
@@ -142,29 +142,91 @@
     }
   }
 
-  select {
-    appearance: none;
-    background-color: var(--color-form-bg);
-    background-image: url("/icons/arrow-down-mr.svg");
-    background-repeat: no-repeat;
-    background-position: right center;
-    border: 0;
-    border-radius: 9px;
-    color: var(--color-text);
-    font-size: 0.75rem;
-    margin-left: 17px;
-    padding: 7px 13px;
-    width: 18.93%;
-  }
-
   label {
     display: inline-block;
     margin: 14px 20px;
   }
+
+  /* category (custom select) ========== */
+
+  .post--category {
+    margin-left: 17px;
+    width: 18.93%;
+
+    select {
+      display: none;
+    }
+
+    .custom-select {
+      font-size: 0.75rem;
+      position: relative;
+      cursor: pointer;
+
+      &.close {
+        ul.custom-select--option {
+          display: none;
+        }
+      }
+    }
+
+    .custom-select--select {
+      background-color: var(--color-form-bg);
+      border-radius: 9px;
+      color: var(--color-text);
+      overflow: hidden;
+      padding: 7px 13px;
+      white-space: nowrap;
+
+      &::after {
+        background-color: var(--color-form-bg);
+        background-image: url("/icons/arrow-up.svg");
+        background-repeat: no-repeat;
+        background-position: center right 10px;
+        border-radius: 0 9px 9px 0;
+        content: " ";
+        height: 100%;
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 25px;
+      }
+    }
+
+    ul.custom-select--option {
+      background-color: var(--color-form-bg);
+      background-image: url("/icons/arrow-down.svg");
+      background-position: top 11px right 10px;
+      background-repeat: no-repeat;
+      border-radius: 9px;
+      list-style: none;
+      padding: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      min-width: max-content;
+      user-select: none;
+      width: 100%;
+      z-index: 3;
+
+      li {
+        padding: 13px;
+
+        &:first-of-type {
+          padding-top: 7px;
+        }
+
+        &.selected,
+        &:hover {
+          color: var(--color-text-hover);
+        }
+      }
+    }
+  }
 }
 
 /* Meta description, Page title tag
-----------------------------------------*/
+==================================================*/
 
 .post-footer {
   display: flex;
