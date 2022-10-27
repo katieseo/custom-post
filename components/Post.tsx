@@ -3,12 +3,13 @@ import { IconHide } from "./Icons";
 import { useForm, Controller } from "react-hook-form";
 import { Tiptap } from "./Tiptap";
 import { getCurrentDate } from "../utils/getCurrentDate";
+import { getReadingTime } from "../utils/getReadingTime";
 
 type FormValues = {
   title: string;
   image: File | null;
   imageDescription: string;
-  readingTime: number;
+  readingTime: string | number;
   date: string;
   category: string;
   body: string;
@@ -16,30 +17,24 @@ type FormValues = {
   pageTitleTag: string;
 };
 
+// Post Component ==================================================
+
 const Post = () => {
+  const [image, setImage] = useState<string | ArrayBuffer | null | undefined>(
+    null
+  );
+
   const initialValues = {
     title: "",
     image: null,
     imageDescription: "",
-    readingTime: 0,
+    readingTime: "",
     date: getCurrentDate(),
     category: "",
     body: "",
     metaDescription: "",
     pageTitleTag: "",
   };
-
-  const [image, setImage] = useState<string | ArrayBuffer | null | undefined>(
-    null
-  );
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    control,
-    formState: { errors },
-  } = useForm<FormValues>();
 
   const category = [
     { label: "Fundamentals" },
@@ -51,9 +46,7 @@ const Post = () => {
     { label: "Commentary" },
   ];
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-  });
+  // Render uploaded image ==========
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let reader = new FileReader();
@@ -65,6 +58,21 @@ const Post = () => {
     if (!e.target.files) return;
     reader.readAsDataURL(e.target.files[0]);
   };
+
+  // React Hook Form ==========
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm<FormValues>();
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
 
   const handleReset = () => {
     setImage(null);
@@ -129,12 +137,7 @@ const Post = () => {
         <div className="post-body">
           <div className="min-date-category">
             <div className="form-readingTime">
-              <input
-                type="text"
-                placeholder="min"
-                {...register("readingTime")}
-                defaultValue={0}
-              />
+              <input type="text" {...register("readingTime")} readOnly />
               <span className="readingTime-min">min</span>
             </div>
 
@@ -160,11 +163,17 @@ const Post = () => {
             </select>
           </div>
 
-          {/* Body  ============================== */}
+          {/* Body (Tiptap) ============================== */}
 
           <label>Body</label>
           <Controller
-            render={({ field }) => <Tiptap onChange={field.onChange} />}
+            render={({ field }) => (
+              <Tiptap
+                onChange={field.onChange}
+                body={field.value}
+                setValue={setValue}
+              />
+            )}
             control={control}
             name="body"
             defaultValue=""

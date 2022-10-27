@@ -1,4 +1,6 @@
 #__next {
+  align-items: center;
+  display: flex;
   min-height: 100%;
 }
 
@@ -6,5 +8,9 @@
   display: flex;
   min-height: 787px;
   margin: 40px auto;
-  max-width: 1356px;
+  width: 100%;
+
+  @media (min-width: 1356px) {
+    width: 1356px;
+  }
 }

@@ -143,6 +143,14 @@
   "resolved" "https://registry.npmjs.org/@tiptap/extension-bullet-list/-/extension-bullet-list-2.0.0-beta.199.tgz"
   "version" "2.0.0-beta.199"
 
+"@tiptap/extension-character-count@^2.0.0-beta.199":
+  "integrity" "sha512-7QEyLZeTVHRi7XaI97n+yF/R9cs7Xo1pf/cpV+wn/QSkfr5YtYvy33LCN74Vlkw9FJ45KrROEXfawRE/UgM/Cw=="
+  "resolved" "https://registry.npmjs.org/@tiptap/extension-character-count/-/extension-character-count-2.0.0-beta.199.tgz"
+  "version" "2.0.0-beta.199"
+  dependencies:
+    "prosemirror-model" "^1.18.1"
+    "prosemirror-state" "^1.4.1"
+
 "@tiptap/extension-code-block@^2.0.0-beta.199":
   "integrity" "sha512-ZfftYE1kHA2pD46hXDkeYd1vuxp3bJLS854B2yHfw1cp3JVDjMXzm4Mzg7zLfr+YV1dT/N/fUfdCg38fqEUCyA=="
   "resolved" "https://registry.npmjs.org/@tiptap/extension-code-block/-/extension-code-block-2.0.0-beta.199.tgz"

@@ -1,7 +1,8 @@
-import React, { useCallback } from "react";
+import { useEffect } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
+import CharacterCount from "@tiptap/extension-character-count";
 import {
   IconRteBold,
   IconRteH2,
@@ -11,6 +12,7 @@ import {
   IconRteListOrdered,
   IconRteListUnordered,
 } from "./Icons";
+import { getReadingTime } from "../utils/getReadingTime";
 
 const MenuBar = ({ editor }: any) => {
   const setLink = () => {
@@ -95,22 +97,34 @@ const MenuBar = ({ editor }: any) => {
 };
 
 type PropValues = {
+  body: string;
   onChange: (html: string) => void;
+  setValue: any;
 };
 
-export const Tiptap = ({ onChange }: PropValues) => {
+export const Tiptap = ({ body, onChange, setValue }: PropValues) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
       Link.configure({
         openOnClick: false,
       }),
+      CharacterCount,
     ],
     content: ``,
     onUpdate({ editor }) {
+      let readingTime = getReadingTime(editor.storage.characterCount.words());
+      setValue("readingTime", readingTime);
+
       onChange(editor.getHTML());
     },
   });
+
+  useEffect(() => {
+    if (editor && body === "") {
+      editor.commands?.clearContent();
+    }
+  }, [body, editor]);
 
   return (
     <>
