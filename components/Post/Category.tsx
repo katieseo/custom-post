@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-const Category = () => {
+type OptionPropsValues = {
+  selectedOption: string;
+  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const Category = ({ selectedOption, setSelectedOption }: OptionPropsValues) => {
   const [toggleSelect, setToggleSelect] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("All");
   const { register, setValue } = useFormContext();
 
   const category = [

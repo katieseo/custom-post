@@ -25,6 +25,7 @@ const Post = () => {
   const [image, setImage] = useState<string | ArrayBuffer | null | undefined>(
     null
   );
+  const [selectedOption, setSelectedOption] = useState("All");
 
   const initialValues = {
     title: "",
@@ -55,6 +56,7 @@ const Post = () => {
 
   const handleReset = () => {
     setImage(null);
+    setSelectedOption("All");
     reset(initialValues);
   };
 
@@ -122,7 +124,10 @@ const Post = () => {
                 />
               </div>
 
-              <Category />
+              <Category
+                selectedOption={selectedOption}
+                setSelectedOption={setSelectedOption}
+              />
             </div>
 
             {/* Body (Tiptap) ============================== */}
