@@ -45,6 +45,8 @@
     }
   }
 
+  /* upload image */
+
   .upload-image {
     .file-group {
       background-color: var(--color-form-bg);
@@ -70,6 +72,24 @@
         object-fit: cover;
         position: absolute;
         width: 100%;
+      }
+
+      .remove-image-icon {
+        background: var(--color-form-bg);
+        border-radius: 50%;
+        font-size: 0.875rem;
+        cursor: pointer;
+        height: 18px;
+        line-height: 1.1;
+        position: absolute;
+        text-align: center;
+        top: 8px;
+        right: 8px;
+        width: 18px;
+
+        &:hover {
+          color: var(--color-text-hover);
+        }
       }
     }
 
@@ -175,11 +195,12 @@
       color: var(--color-text);
       overflow: hidden;
       padding: 7px 13px;
+      user-select: none;
       white-space: nowrap;
 
       &::after {
         background-color: var(--color-form-bg);
-        background-image: url("/icons/arrow-up.svg");
+        background-image: url("/icons/arrow-down.svg");
         background-repeat: no-repeat;
         background-position: center right 10px;
         border-radius: 0 9px 9px 0;
@@ -195,7 +216,7 @@
 
     ul.custom-select--option {
       background-color: var(--color-form-bg);
-      background-image: url("/icons/arrow-down.svg");
+      background-image: url("/icons/arrow-up.svg");
       background-position: top 11px right 10px;
       background-repeat: no-repeat;
       border-radius: 9px;

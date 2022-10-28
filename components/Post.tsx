@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { IconHide } from "./Icons";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller, FormProvider } from "react-hook-form";
-import { Tiptap } from "./Tiptap";
+
 import { getCurrentDate } from "../utils/getCurrentDate";
-import { getReadingTime } from "../utils/getReadingTime";
+import { IconHide } from "./Icons";
+import Tiptap from "./Tiptap";
 import Category from "./Post/Category";
+import UploadImage from "./Post/UploadImage";
 
 type FormValues = {
   title: string;
@@ -37,19 +38,6 @@ const Post = () => {
     pageTitleTag: "",
   };
 
-  // Render uploaded image ==========
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let reader = new FileReader();
-
-    reader.onload = function (event) {
-      setImage(event.target?.result);
-    };
-
-    if (!e.target.files) return;
-    reader.readAsDataURL(e.target.files[0]);
-  };
-
   // React Hook Form ==========
   const methods = useForm<FormValues>();
 
@@ -58,7 +46,6 @@ const Post = () => {
     handleSubmit,
     reset,
     control,
-    setValue,
     formState: { errors },
   } = methods;
 
@@ -103,18 +90,7 @@ const Post = () => {
               </section>
 
               <section className="upload-image">
-                <div className="file-group">
-                  {typeof image === "string" && (
-                    <>
-                      <img src={image} />
-                    </>
-                  )}
-                  <input
-                    type="file"
-                    {...register("image")}
-                    onChange={handleFileChange}
-                  />
-                </div>
+                <UploadImage image={image} setImage={setImage} />
 
                 <input
                   type="text"
@@ -154,11 +130,7 @@ const Post = () => {
             <label>Body</label>
             <Controller
               render={({ field }) => (
-                <Tiptap
-                  onChange={field.onChange}
-                  body={field.value}
-                  setValue={setValue}
-                />
+                <Tiptap onChange={field.onChange} body={field.value} />
               )}
               control={control}
               name="body"

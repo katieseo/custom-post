@@ -13,6 +13,9 @@ import {
   IconRteListUnordered,
 } from "./Icons";
 import { getReadingTime } from "../utils/getReadingTime";
+import { useFormContext } from "react-hook-form";
+
+//----- MenuBar
 
 const MenuBar = ({ editor }: any) => {
   const setLink = () => {
@@ -99,10 +102,13 @@ const MenuBar = ({ editor }: any) => {
 type PropValues = {
   body: string;
   onChange: (html: string) => void;
-  setValue: any;
 };
 
-export const Tiptap = ({ body, onChange, setValue }: PropValues) => {
+//----- Tiptap
+
+const Tiptap = ({ body, onChange }: PropValues) => {
+  const { setValue } = useFormContext();
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -122,7 +128,7 @@ export const Tiptap = ({ body, onChange, setValue }: PropValues) => {
 
   useEffect(() => {
     if (editor && body === "") {
-      editor.commands?.clearContent();
+      editor.commands.clearContent();
     }
   }, [body, editor]);
 
@@ -133,3 +139,5 @@ export const Tiptap = ({ body, onChange, setValue }: PropValues) => {
     </>
   );
 };
+
+export default Tiptap;
